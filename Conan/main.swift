@@ -12,6 +12,7 @@ print("Hello, World!")
 
 let cmd1 = "find"
 let cmd2 = "check"
+let cmd3 = "checkall"
 
 let arguments = ProcessInfo.processInfo.arguments
 
@@ -33,8 +34,10 @@ if let findIndex = arguments.index(of: cmd1) {
     }
     
     do {
-        let finder = try Finder(path: inputPath, output: outputPath)
-        finder.start()
+        if let finder = try Finder(path: inputPath, output: outputPath) {
+            finder.start()
+        }
+        
         
     } catch {
         print(error)
