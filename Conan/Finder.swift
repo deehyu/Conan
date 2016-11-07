@@ -26,41 +26,45 @@ class Finder {
             throw FinderError.InvalidInputPath
         }
         
-        guard let inputURL = URL(string: path), let outputURL = URL(string: output) else {
+        guard let inputURL = URL(string: path) else {
             
-            throw FinderError.InvalidOutputPath
+            throw FinderError.InvalidInputPath
         }
         self.inputURL = inputURL
-        self.outputURL = outputURL
+        outputURL = URL(fileURLWithPath: output)
     }
     
     func start() {
         let files = FileManager.default.enumerator(atPath: inputURL.path)
         var preferedCount = 0
         var realCount = 0
-        
-        var localized = [String]()
+        var text = ""
         
         while let file: AnyObject = files?.nextObject() as AnyObject? {
             if let fileName = file as? String {
                 if fileName.contains(".m") || fileName.contains(".mm") || fileName.contains(".swift") {
-//                    print("\(fileName)")
                     do {
                         let codes = try String(contentsOfFile: inputURL.appendingPathComponent(fileName).absoluteString)
-                        let localizedStrings = try find(inCodes: codes)
+                        let localizeds = try find(inCodes: codes)
                         let count = try counts(inCodes: codes)
                         
                         preferedCount += count
-                        realCount += localizedStrings.count
-                        localized.append(contentsOf: localizedStrings)
+                        realCount += localizeds.count
                         
-                        if count != localizedStrings.count {
-                            print("\(fileName) - \(count) - \(localizedStrings.count)")
+                        if count != localizeds.count {
+                            print("\(fileName) - \(count) - \(localizeds.count)")
                         }
                         
-//                        for string in localizedStrings {
-//                            print(string)
-//                        }
+                        if localizeds.count > 0 {
+                            if let last = fileName.components(separatedBy: "/").last {
+                                text += "\n\n// \(last)"
+                            }
+//                            text += "// \(fileName.components(separatedBy: "/").last) \n"
+                        }
+                        for line in localizeds {
+                            text += "\n\(line) = \(line);"
+
+                        }
                     } catch {
                         
                     }
@@ -70,6 +74,12 @@ class Finder {
         
         print("prefered --- \(preferedCount)")
         print("real ------- \(realCount)")
+        
+        do {
+            try output(text: text)
+        } catch {
+            print(error)
+        }
     }
     func counts(inCodes codes: String) throws -> Int {
         let regex = try NSRegularExpression(pattern: "NSLocalizedString\\(@\"|\\.localized\\b", options: .allowCommentsAndWhitespace)
@@ -88,5 +98,12 @@ class Finder {
         }
         
         return localizedStrings
+    }
+    func output(text: String) throws {
+        var directoryURL = outputURL
+        directoryURL.deleteLastPathComponent()
+        try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true)
+        
+        try text.write(to: outputURL, atomically: true, encoding: .utf8)
     }
 }

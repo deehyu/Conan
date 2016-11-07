@@ -24,13 +24,10 @@ guard arguments.contains(cmd1) || arguments.contains(cmd2) else {
 
 if let findIndex = arguments.index(of: cmd1) {
     var inputPath = ""
-    var outputPath = "~/conan_ouput"
+    var outputPath = "conan_ouput/find.strings"
     
     if findIndex < arguments.count - 1 {
         inputPath = arguments[findIndex + 1]
-    }
-    if findIndex < arguments.count - 2 {
-        outputPath = arguments[findIndex + 2]
     }
     
     do {
