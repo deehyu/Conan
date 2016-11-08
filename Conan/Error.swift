@@ -12,3 +12,8 @@ enum FinderError: Error {
     case InvalidInputPath
     case InvalidOutputPath
 }
+
+enum CheckerError: Error {
+    case InvalidInputPath
+    case NoBaseFile
+}

@@ -18,23 +18,22 @@ class Finder {
     /// - Parameters:
     ///   - path: 导入路径，文件或路径
     ///   - output: 导出文件路径
-    init?(path: String, output: String) throws {
-        let fileManager = FileManager.default
-        
-        guard fileManager.fileExists(atPath: path) else {
-            
-            throw FinderError.InvalidInputPath
+    init(input: String, output: String) throws {
+        var isDir: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: input, isDirectory: &isDir) else {
+            throw CheckerError.InvalidInputPath
         }
-        
-        guard let inputURL = URL(string: path) else {
-            
-            throw FinderError.InvalidInputPath
+        guard isDir.boolValue else {
+            throw CheckerError.InvalidInputPath
+        }
+        guard let inputURL = URL(string: input) else {
+            throw CheckerError.InvalidInputPath
         }
         self.inputURL = inputURL
         outputURL = URL(fileURLWithPath: output)
     }
     
-    func start() {
+    func start() throws {
         let files = FileManager.default.enumerator(atPath: inputURL.path)
         var preferedCount = 0
         var realCount = 0
@@ -43,37 +42,36 @@ class Finder {
         while let file: AnyObject = files?.nextObject() as AnyObject? {
             if let fileName = file as? String {
                 if fileName.contains(".m") || fileName.contains(".mm") || fileName.contains(".swift") {
-                    do {
-                        let codes = try String(contentsOfFile: inputURL.appendingPathComponent(fileName).absoluteString)
-                        let localizeds = try find(inCodes: codes)
-                        let count = try counts(inCodes: codes)
-                        
-                        preferedCount += count
-                        realCount += localizeds.count
-                        
-                        if count != localizeds.count {
-                            print("\(fileName) - \(count) - \(localizeds.count)")
+                    let codes = try String(contentsOfFile: inputURL.appendingPathComponent(fileName).absoluteString)
+                    let localizeds = try find(inCodes: codes)
+                    let count = try counts(inCodes: codes)
+                    
+                    preferedCount += count
+                    realCount += localizeds.count
+                    
+                    if count != localizeds.count {
+                        print("Some Errors At \(fileName) - \(count) - \(localizeds.count)")
+                    }
+                    
+                    if localizeds.count > 0 {
+                        if let last = fileName.components(separatedBy: "/").last {
+                            text += "\n\n// \(last)"
                         }
-                        
-                        if localizeds.count > 0 {
-                            if let last = fileName.components(separatedBy: "/").last {
-                                text += "\n\n// \(last)"
-                            }
-//                            text += "// \(fileName.components(separatedBy: "/").last) \n"
-                        }
-                        for line in localizeds {
-                            text += "\n\(line) = \(line);"
-
-                        }
-                    } catch {
+                    }
+                    for line in localizeds {
+                        text += "\n\(line) = \(line);"
                         
                     }
                 }
             }
         }
         
-        print("prefered --- \(preferedCount)")
-        print("real ------- \(realCount)")
+        if preferedCount == realCount {
+            print("find Succeed 😄")
+        }else {
+            print("prefered --- \(preferedCount)")
+            print("real ------- \(realCount)")
+        }
         
         do {
             try output(text: text)
