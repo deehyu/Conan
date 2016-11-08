@@ -75,11 +75,10 @@ class Checker {
             borderLine.append("=")
         }
         
-        print("\n" + borderLine)
-        print("\n" + text)
-        print("\n" + borderLine)
-        
-        
+        print("\n")
+        print(borderLine)
+        print(text)
+        print(borderLine)
     }
     
     func compare(fromBase base: String, to destination: String) throws -> [String] {
