@@ -37,11 +37,11 @@ class Finder {
         let files = FileManager.default.enumerator(atPath: inputURL.path)
         var preferedCount = 0
         var realCount = 0
-        var text = ""
+        var text = "// \(Date()) \n"
         
         while let file: AnyObject = files?.nextObject() as AnyObject? {
             if let fileName = file as? String {
-                if fileName.contains(".m") || fileName.contains(".mm") || fileName.contains(".swift") {
+                if (fileName.contains(".m") || fileName.contains(".mm") || fileName.contains(".swift")) && !fileName.contains("String+Localized.swift"){
                     let codes = try String(contentsOfFile: inputURL.appendingPathComponent(fileName).absoluteString)
                     let localizeds = try find(inCodes: codes)
                     let count = try counts(inCodes: codes)
@@ -67,7 +67,7 @@ class Finder {
         }
         
         if preferedCount == realCount {
-            print("find Succeed 😄")
+            print("find Succeed ✅")
         }else {
             print("prefered --- \(preferedCount)")
             print("real ------- \(realCount)")
@@ -80,14 +80,14 @@ class Finder {
         }
     }
     func counts(inCodes codes: String) throws -> Int {
-        let regex = try NSRegularExpression(pattern: "NSLocalizedString\\(@\"|\\.localized\\b", options: .allowCommentsAndWhitespace)
+        let regex = try NSRegularExpression(pattern: "NSLocalizedString\\(|\\.localized\\b", options: .allowCommentsAndWhitespace)
         let matches = regex.matches(in: codes, options: [], range: NSMakeRange(0, (codes as NSString).length ))
         
         return matches.count
     }
     func find(inCodes codes: String) throws -> [String] {
         var localizedStrings = [String]()
-        let regex = try NSRegularExpression(pattern: "((?<=NSLocalizedString\\(@)\"((?!NSLocalizedString).)*\"\\s*(?=,))|\"(((.*\\\\\".*)*)|[^\"]*)\"(?=.localized)", options: .allowCommentsAndWhitespace)
+        let regex = try NSRegularExpression(pattern: "(((?<=NSLocalizedString\\(@)|(?<=NSLocalizedString\\())\"((?!NSLocalizedString).)*\"\\s*(?=,))|\"(((.*\\\\\".*)*)|[^\"]*)\"(?=.localized)", options: .allowCommentsAndWhitespace)
         let matches = regex.matches(in: codes, options: [], range: NSMakeRange(0, (codes as NSString).length ))
         for result in matches {
             let localized = (codes as NSString).substring(with: result.range)

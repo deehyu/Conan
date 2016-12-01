@@ -37,7 +37,7 @@ class Checker {
         while let file: AnyObject = files?.nextObject() as AnyObject? {
             if let fileName = file as? String {
                 if fileName.contains(".strings") || fileName.contains(".txt") {
-                    if fileName.contains("base") {
+                    if fileName.contains("finder") {
                         baseFile = fileName
                     }else {
                         otherFiles.append(fileName)
@@ -55,8 +55,6 @@ class Checker {
             let otherContent = try String(contentsOfFile: inputURL.appendingPathComponent(other).absoluteString)
             let missedKeys = try compare(fromBase: baseContent, to: otherContent)
             
-            
-
             if missedKeys.count > 0 {
                 beautyPrint(text: ("\(other) has \(missedKeys.count) missed 😭😭"))
                 for key in missedKeys {

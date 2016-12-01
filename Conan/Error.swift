@@ -17,3 +17,8 @@ enum CheckerError: Error {
     case InvalidInputPath
     case NoBaseFile
 }
+
+enum ReadError: Error {
+    case InvalidInputPath
+    case InvalidOutputPath
+}
