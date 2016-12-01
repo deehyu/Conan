@@ -22,18 +22,21 @@ var cmds = [cmd1, cmd2, cmd3, cmd4, cmd5]
 
 var valid = false
 for cmd in cmds {
-    if arguments.contains(cmd) {
-        valid = true
+    if let index = arguments.index(of: cmd) {
+        if arguments.count > index + 1 {
+            valid = true
+        }
     }
 }
 
 guard valid else {
-    print("find PROJECT         -> 遍历项目文件，提取所有国际化文本")
-    print("read PROJECT         -> 提取国际化文件列表")
-    print("parse PROJECT        -> find 和 read 同时进行")
-    print("check SOURCE         -> 对比国际化文件，输出缺失的文本")
-    print("fill SOURCE PROJECT  -> 将新的文件内容写入PROJECT")
-    
+    print("\n")
+    print("😂  - [find] PROJECT         -> 遍历项目文件，提取所有国际化文本")
+    print("😂  - [read] PROJECT         -> 提取国际化文件列表")
+    print("😂  - [parse] PROJECT        -> find 和 read 同时进行")
+    print("😂  - [check] SOURCE         -> 对比国际化文件，输出缺失的文本")
+    print("😂  - [fill] SOURCE PROJECT  -> 将新的文件内容写入PROJECT")
+    print("\n")
     
     exit(0)
 }
@@ -47,8 +50,6 @@ if let findIndex = arguments.index(of: cmd1) {
         try finder.start()
     } catch {
         print("❌  \(error)")
-        
-        exit(0)
     }
 }
 
@@ -61,8 +62,6 @@ if let readIndex = arguments.index(of: cmd3) {
         try reader.start()
     } catch {
         print("❌  \(error)")
-        
-        exit(0)
     }
 }
 
@@ -79,7 +78,6 @@ if let parseIndex = arguments.index(of: cmd5) {
         try reader.start()
     } catch {
         print("❌  \(error)")
-        
     }
 }
 
@@ -93,8 +91,6 @@ if let checkIndex = arguments.index(of: cmd2) {
         try checker.start()
     } catch {
         print(error)
-        
-        exit(0)
     }
 }
 
