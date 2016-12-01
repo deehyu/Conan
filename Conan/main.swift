@@ -84,4 +84,16 @@ if let checkIndex = arguments.index(of: cmd2) {
     }
 }
 
+if let fillIndex = arguments.index(of: cmd4) {
+    var inputPath = arguments[fillIndex + 1]
+    var projectPath = arguments[fillIndex + 2]
+    
+    do {
+        let filler = try Filler(input: inputPath, project: projectPath)
+        try filler.start()
+    } catch {
+        print(error)
+    }
+}
+
 

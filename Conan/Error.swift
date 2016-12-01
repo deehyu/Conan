@@ -22,3 +22,8 @@ enum ReadError: Error {
     case InvalidInputPath
     case InvalidOutputPath
 }
+
+enum FillError: Error {
+    case InvalidInputPath
+    case InvalidOutputPath
+}

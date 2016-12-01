@@ -34,11 +34,12 @@ class Finder {
     }
     
     func start() throws {
-        let files = FileManager.default.enumerator(atPath: inputURL.path)
         var preferedCount = 0
         var realCount = 0
         var text = "// \(Date()) \n"
+        var findedKeys = [String]()
         
+        let files = FileManager.default.enumerator(atPath: inputURL.path)
         while let file: AnyObject = files?.nextObject() as AnyObject? {
             if let fileName = file as? String {
                 if (fileName.contains(".m") || fileName.contains(".mm") || fileName.contains(".swift")) && !fileName.contains("String+Localized.swift"){
@@ -59,7 +60,10 @@ class Finder {
                         }
                     }
                     for line in localizeds {
-                        text += "\n\(line) = \(line);"
+                        if !findedKeys.contains(line) {
+                            text += "\n\(line) = \(line);"
+                            findedKeys.append(line)
+                        }
                         
                     }
                 }
