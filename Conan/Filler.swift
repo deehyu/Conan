@@ -52,12 +52,7 @@ class Filler {
             } else {
                 print("❌  缺失 \(key)")
             }
-            
         }
-//        let files = FileManager.default.enumerator(atPath: inputUrl.path)
-//        while let file: String = files?.nextObject() as? String {
-//            
-//        }
     }
     func appendText(fromFile from: String, to: String) throws {
         let toText = try String(contentsOfFile: to)

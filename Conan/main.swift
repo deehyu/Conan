@@ -18,8 +18,22 @@ let cmd5 = "parse" // parse = find + read
 
 let arguments = ProcessInfo.processInfo.arguments
 
-guard arguments.contains(cmd1) || arguments.contains(cmd2) || arguments.contains(cmd3) || arguments.contains(cmd4) || arguments.contains(cmd5) else {
-    print("you must input find/check /path")
+var cmds = [cmd1, cmd2, cmd3, cmd4, cmd5]
+
+var valid = false
+for cmd in cmds {
+    if arguments.contains(cmd) {
+        valid = true
+    }
+}
+
+guard valid else {
+    print("find PROJECT         -> 遍历项目文件，提取所有国际化文本")
+    print("read PROJECT         -> 提取国际化文件列表")
+    print("parse PROJECT        -> find 和 read 同时进行")
+    print("check SOURCE         -> 对比国际化文件，输出缺失的文本")
+    print("fill SOURCE PROJECT  -> 将新的文件内容写入PROJECT")
+    
     
     exit(0)
 }

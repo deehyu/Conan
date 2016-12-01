@@ -64,7 +64,6 @@ class Finder {
                             text += "\n\(line) = \(line);"
                             findedKeys.append(line)
                         }
-                        
                     }
                 }
             }
