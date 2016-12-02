@@ -126,14 +126,6 @@ class Checker {
             }
         }
         
-        
-//        let regex = try NSRegularExpression(pattern: "", options: .allowCommentsAndWhitespace)
-//        let matches = regex.matches(in: localized, options: [], range: NSMakeRange(0, (localized as NSString).length))
-//        
-//        for result in matches {
-//            keys.insert((localized as NSString).substring(with: result.range))
-//        }
-        
         return keys
     }
 }

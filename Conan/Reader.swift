@@ -36,7 +36,6 @@ class Reader {
                     let fileName = folder.components(separatedBy: ".").first!.appending(".strings")
                     let dest = outputURL.appendingPathComponent(fileName)
                     
-                    
                     let text = try String(contentsOfFile: fileUrl.absoluteString)
                     try text.write(toFile: dest.absoluteURL.path, atomically: true, encoding: .utf8)
                     

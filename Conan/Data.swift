@@ -45,12 +45,4 @@ struct Clue {
             "zh-Hant-MO.lproj"
         ]
     ]
-    
-    var en: [String] {
-        return localizedMap["en"]!
-    }
-    var fr: [String] {
-        return localizedMap["fr"]!
-    }
-    
 }
