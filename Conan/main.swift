@@ -31,11 +31,11 @@ for cmd in cmds {
 
 guard valid else {
     print("\n")
-    print("😂  - [find] PROJECT         -> 遍历项目文件，提取所有国际化文本")
-    print("😂  - [read] PROJECT         -> 提取国际化文件列表")
-    print("😂  - [parse] PROJECT        -> find 和 read 同时进行")
-    print("😂  - [check] SOURCE         -> 对比国际化文件，输出缺失的文本")
-    print("😂  - [fill] SOURCE PROJECT  -> 将新的文件内容写入PROJECT")
+    print("😂  - [find] PROJECT_DIR             -> 遍历项目文件，提取所有国际化文本")
+    print("😂  - [read] PROJECT_DIR             -> 提取国际化文件列表")
+    print("😂  - [parse] PROJECT_DIR            -> find 和 read 同时进行")
+    print("😂  - [check] SOURCE_DIR             -> 对比国际化文件，输出缺失的文本")
+    print("😂  - [fill] SOURCE_DIR PROJECT_DIR  -> 将新的文件内容写入PROJECT")
     print("\n")
     
     exit(0)

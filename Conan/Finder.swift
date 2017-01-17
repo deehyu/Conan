@@ -83,14 +83,14 @@ class Finder {
         }
     }
     func counts(inCodes codes: String) throws -> Int {
-        let regex = try NSRegularExpression(pattern: "NSLocalizedString\\(|\\.localized\\b", options: .allowCommentsAndWhitespace)
+        let regex = try NSRegularExpression(pattern: "ARVLocalizedString\\(|\\.localized\\b", options: .allowCommentsAndWhitespace)
         let matches = regex.matches(in: codes, options: [], range: NSMakeRange(0, (codes as NSString).length ))
         
         return matches.count
     }
     func find(inCodes codes: String) throws -> [String] {
         var localizedStrings = [String]()
-        let regex = try NSRegularExpression(pattern: "(((?<=NSLocalizedString\\(@)|(?<=NSLocalizedString\\())\"((?!NSLocalizedString).)*\"\\s*(?=,))|\"(((.*\\\\\".*)*)|[^\"]*)\"(?=.localized)", options: .allowCommentsAndWhitespace)
+        let regex = try NSRegularExpression(pattern: "(((?<=ARVLocalizedString\\(@)|(?<=ARVLocalizedString\\())\"((?!ARVLocalizedString).)*\"\\s*(?=,))|\"(((.*\\\\\".*)*)|[^\"]*)\"(?=.localized)", options: .allowCommentsAndWhitespace)
         let matches = regex.matches(in: codes, options: [], range: NSMakeRange(0, (codes as NSString).length ))
         for result in matches {
             let localized = (codes as NSString).substring(with: result.range)
