@@ -51,19 +51,27 @@ class Checker {
         }
         
         let baseContent = try String(contentsOfFile: inputURL.appendingPathComponent(baseFile!).absoluteString)
+        var text = ""
+        
         for other in otherFiles {
             let otherContent = try String(contentsOfFile: inputURL.appendingPathComponent(other).absoluteString)
             let missedKeys = try compare(fromBase: baseContent, to: otherContent)
             
             if missedKeys.count > 0 {
                 beautyPrint(text: ("\(other) has \(missedKeys.count) missed 😭😭"))
+                text.append("================\(other) has \(missedKeys.count) missed 😭😭===================\n")
                 for key in missedKeys {
                     print(" \(key)")
+                    text.append("\(key)\n")
                 }
+                
             }else {
                 beautyPrint(text: ("\(other) OK 🙄🙄"))
+                text.append("\(other) OK 🙄🙄")
             }
         }
+        try output(text: text)
+        
     }
     
     func beautyPrint(text: String) {
@@ -127,5 +135,12 @@ class Checker {
         }
         
         return keys
+    }
+    func output(text: String) throws {
+        var directoryURL = outputURL
+        directoryURL.deleteLastPathComponent()
+        try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true)
+        
+        try text.write(to: outputURL, atomically: true, encoding: .utf8)
     }
 }

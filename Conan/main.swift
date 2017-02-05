@@ -16,9 +16,11 @@ let cmd4 = "fill"
 
 let cmd5 = "parse" // parse = find + read
 
+let cmd6 = "trim"
+
 let arguments = ProcessInfo.processInfo.arguments
 
-var cmds = [cmd1, cmd2, cmd3, cmd4, cmd5]
+var cmds = [cmd1, cmd2, cmd3, cmd4, cmd5, cmd6]
 
 var valid = false
 for cmd in cmds {
@@ -36,6 +38,7 @@ guard valid else {
     print("😂  - [parse] PROJECT_DIR            -> find 和 read 同时进行")
     print("😂  - [check] SOURCE_DIR             -> 对比国际化文件，输出缺失的文本")
     print("😂  - [fill] SOURCE_DIR PROJECT_DIR  -> 将新的文件内容写入PROJECT")
+    print("😂  - [fill] BASE_FILE TO_TRIM_FILE  -> 将文件按照给出的base进行瘦身")
     print("\n")
     
     exit(0)
@@ -101,6 +104,18 @@ if let fillIndex = arguments.index(of: cmd4) {
     do {
         let filler = try Filler(input: inputPath, project: projectPath)
         try filler.start()
+    } catch {
+        print(error)
+    }
+}
+
+if let trimIndex = arguments.index(of: cmd6) {
+    var baseInput = arguments[trimIndex + 1]
+    var toTrimInput = arguments[trimIndex + 2]
+    
+    do {
+        let trimmer = try Trimmer(input1: baseInput, input2: toTrimInput)
+        try trimmer.start()
     } catch {
         print(error)
     }
