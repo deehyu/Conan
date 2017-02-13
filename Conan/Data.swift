@@ -43,6 +43,13 @@ struct Clue {
             "zh-Hant-HK.lproj",
             "zh-Hant-TW.lproj",
             "zh-Hant-MO.lproj"
+        ],
+        "it": [
+            "it.lproj",
+        ],
+        "pt": [
+            "pt-PT.lproj",
+            "pt-BR.lproj"
         ]
     ]
 }
