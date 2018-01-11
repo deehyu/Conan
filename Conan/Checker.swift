@@ -61,8 +61,8 @@ class Checker {
                 beautyPrint(text: ("\(other) has \(missedKeys.count) missed 😭😭"))
                 text.append("================\(other) has \(missedKeys.count) missed 😭😭===================\n")
                 for key in missedKeys {
-                    print(" \(key)")
-                    text.append("\(key)\n")
+                    print("\(key)")
+                    text.append("\"\(key)\":\"\(key)\";\n")
                 }
                 
             }else {
