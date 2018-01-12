@@ -51,7 +51,7 @@ class Checker {
         }
         
         let baseContent = try String(contentsOfFile: inputURL.appendingPathComponent(baseFile!).absoluteString)
-        var text = ""
+        var text = "{\n"
         
         for other in otherFiles {
             let otherContent = try String(contentsOfFile: inputURL.appendingPathComponent(other).absoluteString)
@@ -64,6 +64,7 @@ class Checker {
                     print("\(key)")
                     text.append("\"\(key)\":\"\(key)\";\n")
                 }
+                text.append("\n}")
                 
             }else {
                 beautyPrint(text: ("\(other) OK 🙄🙄"))
